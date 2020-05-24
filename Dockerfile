@@ -15,4 +15,4 @@ EXPOSE 5001
 
 # Start
 CMD pilight-daemon
-
+CMD tail -f /dev/null

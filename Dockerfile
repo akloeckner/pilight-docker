@@ -3,7 +3,8 @@ MAINTAINER akloeckner
 
 # Dependencies for pilight repository
 RUN apt-get update \
- && apt-get install -y wget gnupg2 apt-transport-https ca-certificates
+ && apt-get install -y wget gnupg2 apt-transport-https ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 #    libunwind8 libpcap0.8 # ...for pilight itself
 
 # Install pilight repository
@@ -12,7 +13,8 @@ RUN echo "deb http://apt.pilight.org/ stable main" > /etc/apt/sources.list.d/pil
 
 # Install development dependencies
 RUN apt-get update \
- && apt-get install -y build-essential cmake git dialog libwiringx libwiringx-dev libpcap0.8-dev libmbedtls-dev liblua5.2-dev libluajit-5.1-dev
+ && apt-get install -y build-essential cmake git dialog libwiringx libwiringx-dev libpcap0.8-dev libmbedtls-dev liblua5.2-dev libluajit-5.1-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 # Clone git repository
 ARG REPOSITORY=https://www.github.com/akloeckner/pilight.git

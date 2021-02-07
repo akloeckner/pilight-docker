@@ -1,16 +1,18 @@
 FROM debian:stretch
-MAINTAINER monsterwels
+MAINTAINER akloeckner
 
-# Dependencies
-RUN apt-get update && apt-get install -y libunwind8 libpcap0.8 wget gnupg2 apt-transport-https ca-certificates
+# Dependencies for pilight repository
+RUN apt-get update && apt-get install -y wget gnupg2 apt-transport-https ca-certificates
 
-# Pilight
-RUN echo "deb http://apt.pilight.org/ stable main" > /etc/apt/sources.list.d/pilight.list
-RUN wget -O - http://apt.pilight.org/pilight.key | apt-key add -
+# Install pilight repository
+RUN echo "deb http://apt.pilight.org/ stable main" > /etc/apt/sources.list.d/pilight.list \
+ && wget -O - http://apt.pilight.org/pilight.key | apt-key add -
+
+# Install pilight and its dependencies
 RUN apt-get update && apt-get install -y pilight
 
 # Sharing
-EXPOSE 5001
+EXPOSE 5000-5002
 VOLUME /etc/pilight
 
 # Start 

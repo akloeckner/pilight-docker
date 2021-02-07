@@ -26,7 +26,7 @@ RUN git clone --depth 5 -b $BRANCH $REPOSITORY \
 RUN cd pilight \
  && ./setup.sh install\
  && ldconfig \
- && touch /etc/pilight/pilight.pem # 
+ && cp res/pilight.pem /etc/pilight/pilight.pem
 
 # Install pilight
 # RUN apt-get update && apt-get install -y pilight

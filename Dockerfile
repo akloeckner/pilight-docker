@@ -18,4 +18,4 @@ EXPOSE 5000-5002
 VOLUME /etc/pilight
 
 # Start 
-CMD service pilight start && tail -f /dev/null
+CMD pilight-daemon -F

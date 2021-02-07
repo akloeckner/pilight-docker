@@ -5,7 +5,6 @@ MAINTAINER akloeckner
 RUN apt-get update \
  && apt-get install -y wget gnupg2 apt-transport-https ca-certificates \
  && rm -rf /var/lib/apt/lists/*
-#    libunwind8 libpcap0.8 # ...for pilight itself
 
 # Install pilight repository
 RUN echo "deb http://apt.pilight.org/ stable main" > /etc/apt/sources.list.d/pilight.list \
@@ -19,17 +18,17 @@ RUN apt-get update \
 # Clone git repository
 ARG REPOSITORY=https://www.github.com/akloeckner/pilight.git
 ARG BRANCH=staging
-RUN git clone --depth 5 -b $BRANCH $REPOSITORY \
- && chmod +x pilight/setup.sh
+RUN mkdir /pilight \
+ && cd /pilight \
+ && git clone $REPOSITORY . \
+ && git checkout -b $BRANCH origin/$BRANCH \
+ && chmod +x setup.sh
 
 # Compile and install pilight
-RUN cd pilight \
+RUN cd /pilight \
  && ./setup.sh install\
  && ldconfig \
  && cp res/pilight.pem /etc/pilight/pilight.pem
-
-# Install pilight
-# RUN apt-get update && apt-get install -y pilight
 
 # Sharing
 EXPOSE 5000-5002

@@ -16,7 +16,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Clone git repository
-ARG REPOSITORY=https://www.github.com/akloeckner/pilight.git
+ARG REPOSITORY=https://www.github.com/pilight/pilight.git
 ARG BRANCH=staging
 RUN mkdir /pilight \
  && cd /pilight \

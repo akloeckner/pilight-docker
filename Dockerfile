@@ -20,8 +20,8 @@ ARG REPOSITORY=https://www.github.com/pilight/pilight.git
 ARG BRANCH=staging
 RUN mkdir /pilight \
  && cd /pilight \
- && git clone $REPOSITORY . \
- && git checkout -b $BRANCH origin/$BRANCH \
+ && git clone -o upstream $REPOSITORY . \
+ && git checkout -b $BRANCH upstream/$BRANCH \
  && chmod +x setup.sh
 
 # Compile and install pilight

@@ -10,6 +10,7 @@ version: '2.4'
 services:
   pilight:
     image: akloeckner/pilight:nightly
+    init: true # use init process, because pilight leaves behind pid file when not exited cleanly
     volumes:
     - /path/to/your/pilight/config:/etc/pilight # be sure to change the host's path to your config here
     ports:

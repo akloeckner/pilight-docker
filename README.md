@@ -1,7 +1,12 @@
 # Pilight in a docker image
-This packages [pilight](https://github.com/pilight/pilight) in a Docker image to be run as a container. The repository is a fork from [monsterwels/pilight](https://github.com/monsterwels/pilight) with a few tweaks. The [Dockerfile](https://github.com/akloeckner/pilight-docker/blob/master/Dockerfile) basically uses the recommended [install procedure](https://manual.pilight.org/installation.html) from the pilight documentation.
+This packages [pilight](https://github.com/pilight/pilight) in a Docker image to be run as a container. The repository is a fork from [monsterwels/pilight](https://github.com/monsterwels/pilight) with a few tweaks. The [Dockerfile](https://github.com/akloeckner/pilight-docker/blob/master/Dockerfile) basically uses the recommended [install procedure](https://manual.pilight.org/installation.html) from the pilight documentation. The images are built and pushed to [Docker hub](https://hub.docker.com/repository/docker/akloeckner/pilight/) every night.
 
-There also is a `nightly` branch which uses the most current version of `pilight`, as well as a `dev` branch which builds `pilight` fom source. Please be aware that the [Docker hub images](https://hub.docker.com/repository/docker/akloeckner/pilight/) are not built automatically, whenever the `pilight` codebase changes. If you really want to make sure to have the latest version, you'll have to build the image yourself.
+There are the following tags:
+| Tag     | `pilight` branch | build from                  |
+| :------ | :----------------| :-------------------------- |
+| latest  | `master`         | official package repository |
+| nightly | `staging`        | official package repository |
+| dev     | `staging`        | source                      |
 
 If you want to run the image as a container, the following docker compose file might be a good starting point:
 ```yaml

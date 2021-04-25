@@ -2,21 +2,26 @@ name: Build staging branch every night
 on:
   workflow_dispatch:
   schedule:
-    # nightly (0th hour 0th minute of every day)
-    - cron: '1 11 * * *'
+    # nightly (min hour day month weekday)
+    - cron: '11 3 * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BUILD_BRANCH: master
+      PILIGHT_BRANCH: master
+      BUILD_TAG: akloeckner/pilight:latest
     steps:
     
     - name: Check for recent changes
       id: check_for_changes
       run: |
-        commitdate=$(curl -sL "https://api.github.com/repos/pilight/pilight/commits/master" | jq -r ".commit.author.date")
+        echo "Workflog triggered by $GITHUB_EVENT_NAME"
+        commitdate=$(curl -sL "https://api.github.com/repos/pilight/pilight/commits/$PILIGHT_BRANCH" | jq -r ".commit.author.date")
         commitdays=$(( ( $(date --utc +%s) - $(date --utc -d $commitdate +%s) ) / 86400 ))
         echo "Last commit was $commitdays days ago."
-        if [ $commitdays -lt 20000 ]; then
+        if [ $commitdays -lt 2 ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
           echo "::set-output name=changes_exist::true"
           echo "Schedule following steps to RUN."
         else
@@ -28,7 +33,7 @@ jobs:
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: actions/checkout@v2
       with:
-        ref: master
+        ref: ${{ env.BUILD_BRANCH }}
       
     - name: Set up Docker Buildx
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
@@ -47,7 +52,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: akloeckner/pilight:latest
+        tags: ${{ BUILD_TAG }}
 
     - name: Image digest
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}

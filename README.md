@@ -2,6 +2,7 @@
 This packages [pilight](https://github.com/pilight/pilight) in a Docker image to be run as a container. The repository is a fork from [monsterwels/pilight](https://github.com/monsterwels/pilight) with a few tweaks. The [Dockerfile](https://github.com/akloeckner/pilight-docker/blob/master/Dockerfile) basically uses the recommended [install procedure](https://manual.pilight.org/installation.html) from the pilight documentation. The images are built and pushed to [Docker hub](https://hub.docker.com/repository/docker/akloeckner/pilight/) every night.
 
 There are the following tags:
+
 | Tag     | `pilight` branch | build from                  |
 | :------ | :----------------| :-------------------------- |
 | latest  | `master`         | official package repository |

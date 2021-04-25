@@ -1,4 +1,4 @@
-name: Build staging branch every night
+name: Build master branch every night
 on:
   workflow_dispatch:
   schedule:

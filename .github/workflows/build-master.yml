@@ -49,4 +49,4 @@ jobs:
 
     - name: Image digest
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
-      run: echo Image digest: ${{ steps.docker_build.outputs.digest }}
+      run: echo Image digest is ${{ steps.docker_build.outputs.digest }}

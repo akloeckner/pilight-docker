@@ -16,7 +16,7 @@ jobs:
         commitdate=$(curl -sL "https://api.github.com/repos/pilight/pilight/commits/master" | jq -r ".commit.author.date")
         commitdays=$(( ( $(date --utc +%s) - $(date --utc -d $commitdate +%s) ) / 86400 ))
         echo "Last commit was $commitdays days ago."
-        if [ $commitdays -lt 2 ]; then
+        if [ $commitdays -lt 20000 ]; then
           echo "::set-output name=changes_exist::true"
           echo "Schedule following steps to RUN."
         else
@@ -25,11 +25,13 @@ jobs:
         fi
 
     - name: Checkout
+      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: actions/checkout@v2
       with:
         ref: master
       
     - name: Set up Docker Buildx
+      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: docker/setup-buildx-action@v1
 
     - name: Login to DockerHub

@@ -49,6 +49,7 @@ jobs:
     - name: Build and push the image
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: docker/build-push-action@v2
+      id: docker_build
       with:
         context: .
         push: true

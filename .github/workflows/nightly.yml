@@ -1,9 +1,14 @@
-name: Build nightly branch every night
+name: Build nightly
 on:
   workflow_dispatch:
   schedule:
     # nightly (min hour day month weekday)
     - cron: '11 3 * * *'
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - README.md
 
 jobs:
   build:
@@ -14,27 +19,21 @@ jobs:
       BUILD_TAG: akloeckner/pilight:nightly
     steps:
     
-    - name: Check for recent changes
+    - name: Check for changes
       id: check_for_changes
-      run: |
-        echo "Workflog triggered by $GITHUB_EVENT_NAME"
-        commitdate=$(curl -sL "https://api.github.com/repos/pilight/pilight/commits/$PILIGHT_BRANCH" | jq -r ".commit.author.date")
-        commitdays=$(( ( $(date --utc +%s) - $(date --utc -d $commitdate +%s) ) / 86400 ))
-        echo "Last commit was $commitdays days ago."
-        if [ $commitdays -lt 2 ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-          echo "::set-output name=changes_exist::true"
-          echo "Schedule following steps to RUN."
-        else
-          echo "::set-output name=changes_exist::false"
-          echo "Schedule following steps to NOT RUN."
-        fi
+      uses: akloeckner/check-for-changes-action@v1-beta
+      with:
+        repository: pilight/pilight
+        branch: ${{ env.PILIGHT_BRANCH }}
+        threshold: 2
+
     - name: Checkout
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: actions/checkout@v2
       with:
         ref: ${{ env.BUILD_BRANCH }}
       
-    - name: Set up Docker Buildx
+    - name: Set up Buildx
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: docker/setup-buildx-action@v1
 
@@ -45,7 +44,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push the image
+    - name: Build and push
       if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
       uses: docker/build-push-action@v2
       id: docker_build

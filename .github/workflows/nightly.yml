@@ -14,8 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BUILD_BRANCH: nightly
       PILIGHT_BRANCH: staging
+      BUILD_BRANCH: master
       BUILD_TAG: akloeckner/pilight:nightly
     steps:
     
@@ -50,6 +50,8 @@ jobs:
       id: docker_build
       with:
         context: .
+        build-args: |
+          NIGHTLY=true
         push: true
         tags: ${{ env.BUILD_TAG }}
 

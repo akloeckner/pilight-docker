@@ -14,8 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BUILD_BRANCH: dev
       PILIGHT_BRANCH: staging
+      BUILD_BRANCH: master
       BUILD_TAG: akloeckner/pilight:dev
     steps:
     
@@ -50,6 +50,7 @@ jobs:
       id: docker_build
       with:
         context: .
+        file: Dockerfile.from_source
         push: true
         tags: ${{ env.BUILD_TAG }}
 

@@ -16,7 +16,7 @@ jobs:
     env:
       PILIGHT_BRANCH: master
       BUILD_BRANCH: master
-      BUILD_TAG: akloeckner/pilight:latest
+      BUILD_TAG: akloeckner/pilight:latest,akloeckner/pilight:stable
     steps:
     
     - name: Check for changes

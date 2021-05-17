@@ -8,11 +8,12 @@ This packages [pilight](https://github.com/pilight/pilight) in a Docker image to
 
 There are the following tags:
 
-| Tag       | built from                   | Comments                                                                                                            |
-| :-------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------ |
-| `latest`  | `stable` package repository  | This bundles the [latest release](https://github.com/pilight/pilight/releases): currently `v8.1.5` from 2 Aug 2019. |
-| `nightly` | `nightly` package repository | This bundles the latest code changes in the current maintenance branch: `staging`.                                  |
-| `dev`     | `staging` source code        | This builds the [current maintenance branch](https://github.com/pilight/pilight/tree/staging) from source.          |
+| Tag                    | built from                   | Comments                                                                                                            |
+| :--------------------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| `latest` or `stable`   | `stable` package repository  | This bundles the [latest release](https://github.com/pilight/pilight/releases): currently `v8.1.5` from 2 Aug 2019. |
+| `nightly`              | `nightly` package repository | This bundles the latest code changes in the current maintenance branch: `staging`.                                  |
+| `staging` or `dev`     | `staging` source code        | This builds the [current maintenance branch](https://github.com/pilight/pilight/tree/staging) from source.          |
+| `master`               | `master` source code         | This builds the [current release branch](https://github.com/pilight/pilight/tree/master) from source.               |
 
 If you want to run the image as a container, the following docker compose file might be a good starting point:
 ```yaml

@@ -21,7 +21,7 @@ ARG BRANCH=staging
 RUN mkdir /pilight \
  && cd /pilight \
  && git clone -o upstream $REPOSITORY . \
- && git checkout -b $BRANCH upstream/$BRANCH \
+ && git checkout -b build upstream/$BRANCH \
  && chmod +x setup.sh
 
 # Compile and install pilight

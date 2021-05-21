@@ -21,34 +21,34 @@ jobs:
 
     - name: Check for changes
       id: check_for_changes
-      uses: akloeckner/check-for-changes-action@v1-beta
+      uses: akloeckner/check-for-changes-action@v1-delta
       with:
         repository: pilight/pilight
         branch: ${{ env.PILIGHT_BRANCH }}
         threshold: 2
 
     - name: Checkout
-      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
+      if: ${{ steps.check_for_changes.outputs.continue == 'true' }}
       uses: actions/checkout@v2
       with:
         ref: ${{ env.BUILD_BRANCH }}
 
     - name: Set up Buildx
-      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
+      if: ${{ steps.check_for_changes.outputs.continue == 'true' }}
       uses: docker/setup-buildx-action@v1
     - name: Set up QEMU
-      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
+      if: ${{ steps.check_for_changes.outputs.continue == 'true' }}
       uses: docker/setup-qemu-action@v1
 
     - name: Login to DockerHub
-      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
+      if: ${{ steps.check_for_changes.outputs.continue == 'true' }}
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and push
-      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
+      if: ${{ steps.check_for_changes.outputs.continue == 'true' }}
       uses: docker/build-push-action@v2
       id: docker_build
       with:
@@ -61,5 +61,5 @@ jobs:
         tags: ${{ env.BUILD_TAG }}
 
     - name: Image digest
-      if: ${{ steps.check_for_changes.outputs.changes_exist == 'true' }}
+      if: ${{ steps.check_for_changes.outputs.continue == 'true' }}
       run: echo Image digest is ${{ steps.docker_build.outputs.digest }}
